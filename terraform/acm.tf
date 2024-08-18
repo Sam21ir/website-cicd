@@ -1,21 +1,25 @@
-# Configure the AWS Provider for ACM in us-east-1
-provider "aws" {
-  alias  = "us_east_1"
-  region = "us-east-1"  # ACM Certificate must be in this region
+# acm.tf
+
+resource "aws_acm_certificate" "website_certificate" {
+  provider             = aws.us_east_1
+  domain_name          = "www.silas-teixeira.com"
+  validation_method    = "DNS"
+  subject_alternative_names = ["silas-teixeira.com"]
+
+  lifecycle {
+    create_before_destroy = true
+  }
+
+  options {
+    certificate_transparency_logging_preference = "ENABLED"
+  }
 }
 
-# Create an ACM certificate in us-east-1 for the domain
-resource "aws_acm_certificate" "cert" {
-  provider = aws.us_east_1
+resource "aws_acm_certificate_validation" "website_certificate_validation" {
+  provider           = aws.us_east_1
+  certificate_arn    = aws_acm_certificate.website_certificate.arn
 
-  domain_name       = "your domain name"
-  validation_method = "DNS"
-
-  subject_alternative_names = [
-    "www.example.com"
+  validation_record_fqdns = [
+    for record in aws_route53_record.acm_cert_validation : record.fqdn
   ]
-
-  tags = {
-    Name = "choose one"
-  }
 }
