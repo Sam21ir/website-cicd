@@ -168,6 +168,7 @@ On the “terraform” directory run:
 Go to “.github/workflows” on VS code
 Add the following code into it: 
 https://github.com/Silas-cloudspace/website-cicd/blob/main/workflows/sync_s3.yaml
+
 https://github.com/Silas-cloudspace/website-cicd/blob/main/workflows/invalidate-cloudfront.yml
 
 Go to VS code
