@@ -2,9 +2,9 @@
 
 resource "aws_acm_certificate" "website_certificate" {
   provider             = aws.us_east_1
-  domain_name          = "www.silas-teixeira.com"
+  domain_name          = "your domain name"
   validation_method    = "DNS"
-  subject_alternative_names = ["silas-teixeira.com"]
+  subject_alternative_names = ["your alternative domain name"]
 
   lifecycle {
     create_before_destroy = true
