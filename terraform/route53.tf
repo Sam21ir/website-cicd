@@ -1,34 +1,47 @@
-# route53.tf
+# s3.tf
 
-data "aws_route53_zone" "main" {
-  name         = "silas-teixeira.com"
-  private_zone = false
+resource "aws_s3_bucket" "website_bucket" {
+  bucket = "portfolio-bucket-st"
 }
 
-resource "aws_route53_record" "www" {
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = "www.silas-teixeira.com"
-  type    = "A"
-
-  alias {
-    name                   = aws_cloudfront_distribution.website_distribution.domain_name
-    zone_id                = aws_cloudfront_distribution.website_distribution.hosted_zone_id
-    evaluate_target_health = false
+resource "aws_s3_bucket_ownership_controls" "website_bucket_ownership_controls" {
+  bucket = aws_s3_bucket.website_bucket.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
   }
 }
 
-resource "aws_route53_record" "acm_cert_validation" {
-  for_each = {
-    for dvo in aws_acm_certificate.website_certificate.domain_validation_options : dvo.domain_name => {
-      name   = dvo.resource_record_name
-      type   = dvo.resource_record_type
-      value  = dvo.resource_record_value
-    }
-  }
+resource "aws_s3_bucket_public_access_block" "website_bucket_public_access_block" {
+   bucket = aws_s3_bucket.website_bucket.id
 
-  zone_id = data.aws_route53_zone.main.zone_id
-  name    = each.value.name
-  type    = each.value.type
-  records = [each.value.value]
-  ttl     = 60
+   block_public_acls = false
+   block_public_policy = false
+   ignore_public_acls = false
+   restrict_public_buckets = false
+}
+
+resource "aws_s3_bucket_acl" "website_bucket_acl" {
+    depends_on = [
+        aws_s3_bucket_ownership_controls.website_bucket_ownership_controls,
+        aws_s3_bucket_public_access_block.website_bucket_public_access_block
+    ]
+    bucket = aws_s3_bucket.website_bucket.id
+    acl    = "public-read"
+}
+
+resource "aws_s3_bucket_policy" "website_bucket_policy" {
+  bucket = aws_s3_bucket.website_bucket.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid      = "PublicReadGetObject"
+        Effect   = "Allow"
+        Principal = "*"
+        Action   = "s3:GetObject"
+        Resource = "${aws_s3_bucket.website_bucket.arn}/*"
+      }
+    ]
+  })
 }
