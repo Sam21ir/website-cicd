@@ -1,6 +1,6 @@
 # Configure the AWS Provider
 provider "aws" {
-  region = "your region"
+  region = "eu-west-2"
 }
 
 # S3 Bucket for Terraform state
