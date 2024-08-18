@@ -1,7 +1,7 @@
 # s3.tf
 
 resource "aws_s3_bucket" "website_bucket" {
-  bucket = "portfolio-bucket-st"
+  bucket = "your bucket name"
 }
 
 resource "aws_s3_bucket_ownership_controls" "website_bucket_ownership_controls" {
