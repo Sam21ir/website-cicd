@@ -2,7 +2,7 @@
 
 # Default AWS Provider
 provider "aws" {
-  region = "eu-west-2"
+  region = "your region"
 }
 
 # Aliased AWS Provider for us-east-1
