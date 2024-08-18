@@ -152,6 +152,7 @@ Paste it on a web browser
 Navigate to terraform directory on VS code
 Run: touch cloudfront.tf
 Copy and paste the following code into it: 
+
 https://github.com/Silas-cloudspace/website-cicd/blob/main/terraform/cloudfront.tf
 
 ## XIX.	Commit and push changes
@@ -166,7 +167,8 @@ On the “terraform” directory run:
 ## XX.	Implementing Invalidate CloudFront cache
 
 Go to “.github/workflows” on VS code
-Add the following code into it: 
+Add the following code into it:
+
 https://github.com/Silas-cloudspace/website-cicd/blob/main/workflows/sync_s3.yaml
 
 https://github.com/Silas-cloudspace/website-cicd/blob/main/workflows/invalidate-cloudfront.yml
