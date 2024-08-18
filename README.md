@@ -4,6 +4,7 @@
 
 ### *This project requires that you already have a domain name.
 
+
 ## I.	Create and clone a git repository
 
 You can name it “website-cicd” (you can also choose a different name).
