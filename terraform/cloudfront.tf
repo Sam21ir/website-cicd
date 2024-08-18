@@ -19,7 +19,7 @@ resource "aws_cloudfront_distribution" "website_distribution" {
   comment             = "Portfolio website"
   default_root_object = "index.html"
 
-  aliases = ["www.silas-teixeira.com"]
+  aliases = ["choose an alias"]
 
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
